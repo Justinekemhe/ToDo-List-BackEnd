@@ -121,6 +121,7 @@ app.post("/login", (request, response) => {
         })
         // catch error if password does not match
         .catch((error) => {
+          console.log(777)
           response.status(400).send({
             message: "Passwords does not match",
             error,
@@ -147,7 +148,7 @@ app.get("/auth-endpoint", auth, (request, response) => {
 });
 
 // get todos
-app.get("/todos", auth, async (request, response) => {
+app.get("/todos", async (request, response) => {
   try {
     const todos = await Todo.find()
     response.status(200).json({ todos })
@@ -157,7 +158,7 @@ app.get("/todos", auth, async (request, response) => {
 });
 
 // get todos by user
-app.get("/my-todos/:id", async (request, response) => {
+app.get("/my-todos/:id", auth, async (request, response) => {
   try {
     const mongoose = require("mongoose");
     const param_id = mongoose.Types.ObjectId(request.params.id)
